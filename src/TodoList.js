@@ -6,7 +6,7 @@ import { FaCheck, FaPlus, FaTrash } from "react-icons/fa";
 
 const TodoList = () => {
   const initialData =JSON.parse(localStorage.getItem("todosList"));
-  const [todoList, setTodoList] = useState([...initialData]);
+  const [todoList, setTodoList] = useState(initialData!=null?[...initialData]:[]);
   const [text, setText] = useState("");
 
   const addTodo = () => {

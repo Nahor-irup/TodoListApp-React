@@ -5,11 +5,12 @@ import { useState } from "react";
 import { FaCheck, FaPlus, FaTrash } from "react-icons/fa";
 
 const TodoList = () => {
-  const [todoList, setTodoList] = useState([]);
+  const initialData =JSON.parse(localStorage.getItem("todosList"));
+  const [todoList, setTodoList] = useState([...initialData]);
   const [text, setText] = useState("");
 
   const addTodo = () => {
-    setTodoList([
+    const newTodo = ([
       ...todoList,
       {
         data: text,
@@ -18,6 +19,8 @@ const TodoList = () => {
       },
     ]);
     setText("");
+    setTodoList(newTodo);
+    localStorage.setItem("todosList",JSON.stringify(newTodo));
   };
 
   const deleteTodo = (idx) => {
@@ -31,6 +34,7 @@ const TodoList = () => {
         }
       });
       setTodoList(newTodo);
+    localStorage.setItem("todosList",JSON.stringify(newTodo));
     }
   };
 
@@ -47,6 +51,7 @@ const TodoList = () => {
     });
 
     setTodoList(newTodo);
+    localStorage.setItem("todosList",JSON.stringify(newTodo));
   };
 
   return (
@@ -56,6 +61,7 @@ const TodoList = () => {
         <Col xs={9}>
           <Form.Control
             type="text"
+            value={text}
             onChange={(e) => {
               setText(e.target.value);
             }}
@@ -80,7 +86,7 @@ const TodoList = () => {
           </thead>
           <tbody>
             {todoList.length > 0
-              ? todoList.map((todo, index) => {
+              ? todoList.map((todo,index)=>{
                   return (
                     <tr key={index}>
                       <th style={{textDecoration:todo.isCompleted?"line-through":"none"}}>
@@ -105,7 +111,7 @@ const TodoList = () => {
                     </tr>
                   );
                 })
-              : ""}
+              :null}
           </tbody>
         </Table>
       </Row>
